@@ -167,7 +167,7 @@ function UserSignup() {
                                       >
                                         
                                           <DatePicker
-                                            label="Select Age"
+                                            label="Select DOB"
                                             className="w-100"
                                             sx={{
                                               mt: 2,

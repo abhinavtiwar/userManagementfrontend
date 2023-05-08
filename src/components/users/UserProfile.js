@@ -118,7 +118,8 @@ const UserProfile = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Select Age"
+                      label="Select DOB"
+                      className="w-100"
                       sx={{
                         mt: 2,
                         "& .MuiInputBase-root": {
@@ -170,7 +171,7 @@ const UserProfile = () => {
             </tr>
             <tr>
               <td>
-                <h2>Age :</h2>
+                <h2>DOB :</h2>
               </td>
               <td className="star">{new Date(currentUser.age).toLocaleDateString()}</td>
             </tr>
