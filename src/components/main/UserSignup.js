@@ -9,13 +9,21 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
 import app_config from "../../config";
+import dayjs from 'dayjs';
 
 function UserSignup() {
+
+  const [dob, setDob] = useState(dayjs(new Date()).$d);
+  // console.log(dob);
+
   const navigate = useNavigate();
   const api_url = app_config.api_url;
   const handleFormSubmit = (formdata) => {
     console.log("Form submitted!!");
+    console.log(dob);
+    formdata.age = dob;
     console.log(formdata);
+    // return;
 
     fetch(`${api_url}/startup/add`, {
       method: "POST",
@@ -60,7 +68,7 @@ function UserSignup() {
                 name: "",
                 email: "",
                 password: "",
-                age: "",
+                age: '',
                 teamInfo: Object,
                 details: Array,
                 createdAt: new Date(),
@@ -168,9 +176,9 @@ function UserSignup() {
                                               },
                                             }}
                                             focused
-                                            id="age"
-                                            value={values.age}
-                                            onChange={({$d}) => handleChange($d)}
+                                            // id="age"
+                                            value={dayjs(dob)}
+                                            onChange={({$d}) => setDob($d)}
                                           />
                                       </LocalizationProvider>
                                     </div>

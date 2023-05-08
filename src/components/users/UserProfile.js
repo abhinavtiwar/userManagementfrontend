@@ -7,6 +7,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Formik } from "formik";
 import { TextField, Button } from "@mui/material";
 import app_config from "../../config";
+import dayjs from 'dayjs';
+
 const UserProfile = () => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(sessionStorage.getItem("startup"))
@@ -15,6 +17,8 @@ const UserProfile = () => {
   const api_url = app_config.api_url;
   const [file, setFile] = useState(api_url + "/" + currentUser.thumbnail);
   const [selFile, setSelFile] = useState("");
+
+  const [dob, setDob] = useState(dayjs(currentUser.age));
 
   function handleChange(e) {
     console.log(e.target.files);
@@ -33,8 +37,9 @@ const UserProfile = () => {
     });
   }
 
-  console.log(currentUser);
+  // console.log(currentUser);
   const handleFormSubmit = (formdata) => {
+    formdata.age = dob.$d;
     formdata.thumbnail = selFile;
     fetch(`${api_url}/startup/update/${currentUser._id}`, {
       method: "PUT",
@@ -122,8 +127,8 @@ const UserProfile = () => {
                       }}
                       focused
                       id="age"
-                      value={values.age}
-                      onChange={handleChange}
+                      value={dayjs(values.age)}
+                      onChange={({$d}) => setDob({$d})}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -167,7 +172,7 @@ const UserProfile = () => {
               <td>
                 <h2>Age :</h2>
               </td>
-              <td className="star">{currentUser.age}</td>
+              <td className="star">{new Date(currentUser.age).toLocaleDateString()}</td>
             </tr>
           </table>
         </div>
