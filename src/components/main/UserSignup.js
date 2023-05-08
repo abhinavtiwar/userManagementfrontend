@@ -1,9 +1,9 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -157,25 +157,21 @@ function UserSignup() {
                                       <LocalizationProvider
                                         dateAdapter={AdapterDayjs}
                                       >
-                                        <DemoContainer
-                                          components={["DatePicker"]}
-                                        >
-                                          <DatePicker label="Select Age"
                                         
-                                        sx={{
-                                          mt: 2,
-                                          "& .MuiInputBase-root": {
-                                            height: 80,
-                                           
-                                          },
-                                        }}
-                                        focused
-                                        id="age"
-                                        value={values.age}
-                                        onChange={handleChange}
-
+                                          <DatePicker
+                                            label="Select Age"
+                                            className="w-100"
+                                            sx={{
+                                              mt: 2,
+                                              "& .MuiInputBase-root": {
+                                                height: 80,
+                                              },
+                                            }}
+                                            focused
+                                            id="age"
+                                            value={values.age}
+                                            onChange={({$d}) => handleChange($d)}
                                           />
-                                        </DemoContainer>
                                       </LocalizationProvider>
                                     </div>
                                     <div className="mb-4">
@@ -214,9 +210,7 @@ function UserSignup() {
                                   </Button>
                                   <h5 className="text-center mt-4">
                                     Already have an account?{" "}
-                                    <Link to="/main/UserLogin">
-                                      Login Here
-                                    </Link>
+                                    <Link to="/main/UserLogin">Login Here</Link>
                                   </h5>
                                 </div>
                               </div>
