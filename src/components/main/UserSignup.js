@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -9,10 +9,9 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
 import app_config from "../../config";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 function UserSignup() {
-
   const [dob, setDob] = useState(dayjs(new Date()).$d);
   // console.log(dob);
 
@@ -48,12 +47,23 @@ function UserSignup() {
       }
     });
   };
-  const loginSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Required"),
+  const signSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(5, "Too Short!")
+      .max(20, "Too Long!")
+      .required("Name is required"),
     password: Yup.string()
-      .min(4, "Password should be longer than 4 characters")
-      .required("Required"),
+      .min(6, "Password should be at least 6 characters")
+      .max(20, "Too Long! password")
+      .required("Password is required"),
+
+    phone: Yup.string()
+      .matches(/^[0-9]{10}$/, "Invalid phone number format")
+      .required("Phone number is required"),
+
+    email: Yup.string().email().required("Email is required"),
   });
+
   const [selectedDate, setselectedDate] = useState(null);
 
   return (
@@ -68,13 +78,13 @@ function UserSignup() {
                 name: "",
                 email: "",
                 password: "",
-                age: '',
+                age: "",
                 teamInfo: Object,
                 details: Array,
                 createdAt: new Date(),
               }} //specifying initial value for form
+              validationSchema={signSchema}
               onSubmit={handleFormSubmit} // function to handle form submission
-              // validationSchema={loginSchema}
             >
               {({ values, handleChange, handleSubmit, errors, touched }) => (
                 <form onSubmit={handleSubmit}>
@@ -114,12 +124,21 @@ function UserSignup() {
                                           },
                                         }}
                                         label="Name"
-                                        color="secondary"
                                         focused
                                         id="name"
+                                        name="name"
+                                        color="secondary"
                                         value={values.name}
                                         onChange={handleChange}
+                                        helperText={
+                                          errors.name ? touched.name : ""
+                                        }
+                                        error={
+                                          Boolean(errors.name) && touched.name
+                                        }
+                                        
                                       />
+                                      <ErrorMessage name="name"  />
                                     </div>
                                   </div>
                                   <div className="row">
@@ -134,30 +153,45 @@ function UserSignup() {
                                         }}
                                         type="email"
                                         label="Email Address"
-                                        color="secondary"
                                         focused
                                         id="email"
+                                        name="email"
+                                        color="secondary"
                                         value={values.email}
                                         onChange={handleChange}
+                                        helperText={errors.email}
+                                        error={Boolean(errors.email)}
                                       />
+                                       <ErrorMessage name="email"  />
                                     </div>
                                     <div className="mb-4">
                                       <TextField
                                         fullWidth
                                         label="Password"
                                         type="password"
+                                        name="password"
                                         sx={{
                                           mt: 2,
                                           "& .MuiInputBase-root": {
                                             height: 80,
                                           },
                                         }}
-                                        color="secondary"
                                         focused
                                         id="password"
+                                        color="secondary"
                                         value={values.password}
                                         onChange={handleChange}
+                                        helperText={
+                                          errors.password
+                                            ? touched.password
+                                            : ""
+                                        }
+                                        error={
+                                          Boolean(errors.password) &&
+                                          touched.password
+                                        }
                                       />
+                                       <ErrorMessage name="password"  />
                                     </div>
                                   </div>
                                   <div className="row">
@@ -165,28 +199,27 @@ function UserSignup() {
                                       <LocalizationProvider
                                         dateAdapter={AdapterDayjs}
                                       >
-                                        
-                                          <DatePicker
-                                            label="Select DOB"
-                                            className="w-100"
-                                            sx={{
-                                              mt: 2,
-                                              "& .MuiInputBase-root": {
-                                                height: 80,
-                                              },
-                                            }}
-                                            focused
-                                            // id="age"
-                                            value={dayjs(dob)}
-                                            onChange={({$d}) => setDob($d)}
-                                          />
+                                        <DatePicker
+                                          label="Select DOB"
+                                          className="w-100"
+                                          color="secondary"
+                                          sx={{
+                                            mt: 2,
+                                            "& .MuiInputBase-root": {
+                                              height: 80,
+                                            },
+                                          }}
+                                          focused
+                                          // id="age"
+                                          value={dayjs(dob)}
+                                          onChange={({ $d }) => setDob($d)}
+                                        />
                                       </LocalizationProvider>
                                     </div>
                                     <div className="mb-4">
                                       <TextField
                                         fullWidth
                                         label="Phone Number"
-                                        color="secondary"
                                         sx={{
                                           mt: 2,
                                           "& .MuiInputBase-root": {
@@ -195,9 +228,19 @@ function UserSignup() {
                                         }}
                                         focused
                                         id="phone"
+                                        color="secondary"
+                                       
+                                        name="phone"
                                         value={values.phone}
                                         onChange={handleChange}
+                                        helperText={
+                                          errors.phone ? touched.phone : ""
+                                        }
+                                        error={
+                                          Boolean(errors.phone) && touched.phone
+                                        }
                                       />
+                                       <ErrorMessage name="phone"  />
                                     </div>
                                   </div>
 

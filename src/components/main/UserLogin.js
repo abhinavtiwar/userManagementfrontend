@@ -1,5 +1,5 @@
 import { TextField, Button } from "@mui/material";
-import { Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -50,8 +50,9 @@ const UserLogin = () => {
   const loginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string()
-      .min(4, "Password should be longer than 4 characters")
-      .required("Required"),
+      .min(6, "Password should be at least 6 characters")
+      .max(20, "Too Long! password")
+      .required("Password is required"),
   });
 
   return (
@@ -59,8 +60,9 @@ const UserLogin = () => {
       <Formik
         initialValues={{ email: "", password: "" }} //specifying initial value for form
         // function to handle form submission
-        onSubmit={handleFormSubmit}
         validationSchema={loginSchema}
+        onSubmit={handleFormSubmit}
+       
       >
         {({ values, handleChange, handleSubmit, errors, touched }) => (
           <form onSubmit={handleSubmit}>
@@ -98,10 +100,15 @@ const UserLogin = () => {
                                 label="Email Address"
                                 color="secondary"
                                 id="email"
+                                name="email"
                                 value={values.email}
                                 onChange={handleChange}
                                 focused
+                                helperText={errors.email}
+                                error={Boolean(errors.email)}
                               />
+                               <ErrorMessage name="email"  />
+                            
                             </div>
                             <div className="form-outline mb-4">
                               <TextField
@@ -116,10 +123,22 @@ const UserLogin = () => {
                                 color="secondary"
                                 type ="password"
                                 id="password"
+                                name="password"
                                 value={values.password}
                                 onChange={handleChange}
                                 focused
+                                helperText={
+                                  errors.password
+                                    ? touched.password
+                                    : ""
+                                }
+                                error={
+                                  Boolean(errors.password) &&
+                                  touched.password
+                                }
                               />
+                               <ErrorMessage name="password"  />
+                              
                             </div>
                             <Button
                               variant="contained"
