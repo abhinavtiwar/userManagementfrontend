@@ -54,7 +54,7 @@ function UserSignup() {
       .required("Name is required"),
     password: Yup.string()
       .min(6, "Password should be at least 6 characters")
-      .max(20, "Too Long! password")
+      .max(100, "Too Long! password")
       .required("Password is required"),
 
     phone: Yup.string()
