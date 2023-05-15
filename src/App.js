@@ -16,13 +16,9 @@ function App() {
   );
   
 
-  const [currentInvestor, setCurrentInvestor] = useState(
-    JSON.parse(sessionStorage.getItem("investor"))
-  );
-
   return (
     <div>
-      <UserProvider startupUser={currentStartup} investorUser={currentInvestor}>
+      <UserProvider startupUser={currentStartup} >
         <BrowserRouter>
           <Routes>
             <Route element={<Navigate to="/main/home" />} path="/" />

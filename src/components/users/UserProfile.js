@@ -137,7 +137,7 @@ const UserProfile = () => {
                   label="Password"
                   sx={{ mt: 4 }}
                   id="password"
-                  type="password"
+             
                   name="password"
                   value={values.password}
                   onChange={handleChange}
