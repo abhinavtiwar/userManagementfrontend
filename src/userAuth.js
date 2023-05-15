@@ -6,7 +6,7 @@ const StartupAuthorisor = ({children}) => {
     const [currentUser, setCurrentUser] = useState(
         JSON.parse(sessionStorage.getItem("startup"))
       );
-      console.log(currentUser);
+      console.log(currentUser); 
 
       if (currentUser === null) {
         Swal.fire({ 
